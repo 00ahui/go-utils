@@ -1,5 +1,5 @@
 // Copyright (c) 2022 Yaohui Wang (yaohuiwang@outlook.com)
-// go-utils is licensed under Mulan PubL v2.
+// utils is licensed under Mulan PubL v2.
 // You can use this software according to the terms and conditions of the Mulan PubL v2.
 // You may obtain a copy of Mulan PubL v2 at:
 //         http://license.coscl.org.cn/MulanPubL-2.0
@@ -8,23 +8,24 @@
 // MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PubL v2 for more details.
 
-package math
+package utils
 
-import (
-	"math/rand"
-	"time"
-	"fmt"
-)
-
-func RandNum(max int) int {
-	s := rand.NewSource(time.Now().UnixNano())
-	r := rand.New(s)
-	return r.Intn(max + 1)
+func ListContains(slice []string, obj string) bool {
+	for i := 0; i < len(slice); i++ {
+		if slice[i] == obj {
+			return true
+		}
+	}
+	return false
 }
 
-func RandomString(len int) string {
-        rand.Seed(time.Now().UnixNano())
-        b := make([]byte, len)
-        rand.Read(b)
-        return fmt.Sprintf("%x", b)[:len]
+func ListDelete(slice []string, obj string) (result []string) {
+	for i := 0; i < len(slice); i++ {
+		if slice[i] == obj {
+			continue
+		}
+		result = append(result, slice[i])
+	}
+	return
 }
+

@@ -1,5 +1,5 @@
 // Copyright (c) 2022 Yaohui Wang (yaohuiwang@outlook.com)
-// go-utils is licensed under Mulan PubL v2.
+// utils is licensed under Mulan PubL v2.
 // You can use this software according to the terms and conditions of the Mulan PubL v2.
 // You may obtain a copy of Mulan PubL v2 at:
 //         http://license.coscl.org.cn/MulanPubL-2.0
@@ -14,8 +14,6 @@ import (
 	"bytes"
 	"fmt"
 	"net"
-
-	"github.com/00ahui/go-utils/types"
 )
 
 // cidr contai
@@ -36,7 +34,7 @@ func AllocIPFromCidr(cidr string, exist []string) (*string, error) {
 	}
 	for ip := cidrIp.Mask(cidrNet.Mask); cidrNet.Contains(ip); inc(ip) {
 		ipstr := ip.String()
-		if !types.ListContains(exist, ipstr) {
+		if !ListContains(exist, ipstr) {
 			return &ipstr, nil
 		}
 	}
@@ -50,7 +48,7 @@ func AllocIPFromRange(start string, end string, exist []string) (*string, error)
 
 	for ip := startIp; bytes.Compare(ip, endIp) < 0; inc(ip) {
 		ipstr := ip.String()
-		if !types.ListContains(exist, ipstr) {
+		if !ListContains(exist, ipstr) {
 			return &ipstr, nil
 		}
 	}

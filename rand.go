@@ -1,5 +1,5 @@
 // Copyright (c) 2022 Yaohui Wang (yaohuiwang@outlook.com)
-// go-utils is licensed under Mulan PubL v2.
+// utils is licensed under Mulan PubL v2.
 // You can use this software according to the terms and conditions of the Mulan PubL v2.
 // You may obtain a copy of Mulan PubL v2 at:
 //         http://license.coscl.org.cn/MulanPubL-2.0
@@ -8,29 +8,23 @@
 // MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PubL v2 for more details.
 
-package log
+package utils
 
 import (
-	"log"
+	"math/rand"
+	"time"
 	"fmt"
 )
 
-const (
-	LOG_DEBUG int = iota
-	LOG_INFO
-	LOG_WARN
-	LOG_ERROR
-)
+func RandNum(max int) int {
+	s := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(s)
+	return r.Intn(max + 1)
+}
 
-var (
-	Logger   *log.Logger = log.Default()
-	LogLevel int         = LOG_DEBUG
-	LogLabel []string    = []string{"DEBUG", "INFO", "WARN", "ERROR"}
-)
-
-func Printf(level int, module string, format string, v ...interface{}) {
-        if level < LogLevel {
-                return
-        }
-        Logger.Printf("[%s] %s: %s", LogLabel[level], module, fmt.Sprintf(format, v...))
+func RandomString(len int) string {
+        rand.Seed(time.Now().UnixNano())
+        b := make([]byte, len)
+        rand.Read(b)
+        return fmt.Sprintf("%x", b)[:len]
 }

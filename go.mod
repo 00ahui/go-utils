@@ -1,4 +1,4 @@
-module github.com/00ahui/go-utils
+module github.com/00ahui/utils
 
 go 1.18
 

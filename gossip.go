@@ -1,5 +1,5 @@
 // Copyright (c) 2022 Yaohui Wang (yaohuiwang@outlook.com)
-// go-utils is licensed under Mulan PubL v2.
+// utils is licensed under Mulan PubL v2.
 // You can use this software according to the terms and conditions of the Mulan PubL v2.
 // You may obtain a copy of Mulan PubL v2 at:
 //         http://license.coscl.org.cn/MulanPubL-2.0
@@ -8,7 +8,7 @@
 // MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PubL v2 for more details.
 
-package gossip
+package utils
 
 import (
 	"os"
@@ -17,7 +17,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/hashicorp/memberlist"
-	"github.com/00ahui/go-utils/log"
 )
 
 type Gossip struct {
@@ -81,7 +80,7 @@ func (g *Gossip) Start(members *string) error {
 	}
 
 	local := g.members.LocalNode()
-	log.Printf(log.LOG_DEBUG, "gossip", "local member %s:%d", local.Addr, local.Port)
+	LogPrintf(LOG_DEBUG, "gossip", "local member %s:%d", local.Addr, local.Port)
 
 	g.Ready = true
 	return nil
@@ -90,7 +89,7 @@ func (g *Gossip) Start(members *string) error {
 // Broadcast message
 func (g *Gossip) Broadcast(msg []byte) {
 	if !g.Ready || g.queue == nil {
-		log.Printf(log.LOG_DEBUG, "gossip", "not ready")
+		LogPrintf(LOG_DEBUG, "gossip", "not ready")
 		return
 	}
 	g.queue.QueueBroadcast(&broadcast_impl{
@@ -131,17 +130,17 @@ func defaultNodeMetaHandler() []byte {
 
 // Default node join handler, print join msg
 func defaultNotifyJoinHandler(node *memberlist.Node) {
-	log.Printf(log.LOG_INFO, "gossip", "node '%s' has joined", node.Name)
+	LogPrintf(LOG_INFO, "gossip", "node '%s' has joined", node.Name)
 }
 
 // Default node leave handler, print leave msg
 func defaultNotifyLeaveHandler(node *memberlist.Node) {
-	log.Printf(log.LOG_INFO, "gossip", "node '%s' has left", node.Name)
+	LogPrintf(LOG_INFO, "gossip", "node '%s' has left", node.Name)
 }
 
 // Default node update handler, print update msg
 func defaultNotifyUpdateHandler(node *memberlist.Node) {
-	log.Printf(log.LOG_INFO, "gossip", "node '%s' has updated", node.Name)
+	LogPrintf(LOG_INFO, "gossip", "node '%s' has updated", node.Name)
 }
 
 // Default msg invalidate handler, return false

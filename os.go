@@ -1,5 +1,5 @@
 // Copyright (c) 2022 Yaohui Wang (yaohuiwang@outlook.com)
-// go-utils is licensed under Mulan PubL v2.
+// utils is licensed under Mulan PubL v2.
 // You can use this software according to the terms and conditions of the Mulan PubL v2.
 // You may obtain a copy of Mulan PubL v2 at:
 //         http://license.coscl.org.cn/MulanPubL-2.0
@@ -8,7 +8,7 @@
 // MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PubL v2 for more details.
 
-package os
+package utils
 
 import (
 	"fmt"
@@ -20,8 +20,6 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
-
-	"github.com/00ahui/go-utils/log"
 )
 
 const (
@@ -40,7 +38,7 @@ func ExecCommand(cmd string) (int, error) {
 	proc := exec.Command("bash", "-c", cmd)
 	err := proc.Run()
 	code := proc.ProcessState.ExitCode()
-	log.Printf(log.LOG_DEBUG, "ExecCommand", "[%d] <-- %s", code, cmd)
+	LogPrintf(LOG_DEBUG, "ExecCommand", "[%d] <-- %s", code, cmd)
 	if err != nil {
 		return code, err
 	}
@@ -74,13 +72,13 @@ func GetProcStatus(pidFile string) string {
 	}
 	data, err := ioutil.ReadFile(pidFile)
 	if err != nil {
-		log.Printf(log.LOG_ERROR, "GetProcStatus", "read file '%s' failed: %s\n", pidFile, err.Error())
+		LogPrintf(LOG_ERROR, "GetProcStatus", "read file '%s' failed: %s\n", pidFile, err.Error())
 		return STATUS_PENDING
 	}
 	line := strings.TrimSuffix(string(data), "\n")
 	pid, err := strconv.ParseUint(line, 10, 32)
 	if err != nil {
-		log.Printf(log.LOG_ERROR, "GetProcStatus", "parse pid '%s' failed: %s\n", line, err.Error())
+		LogPrintf(LOG_ERROR, "GetProcStatus", "parse pid '%s' failed: %s\n", line, err.Error())
 		return STATUS_PENDING
 	}
 	if FileExist(fmt.Sprintf("/proc/%d", pid)) {
